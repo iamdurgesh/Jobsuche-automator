@@ -22,14 +22,14 @@ def fetch_jobs(job_title, location="", limit=50, page=1):
     if response.status_code == 200:
         return response.json()
     else:
-        print(f"❌ Error (Status {response.status_code}): {response.text}")
+        print(f"Error (Status {response.status_code}): {response.text}")
         return None
 
 def extract_job_details(raw_jobs):
     job_list = []
     
     if not raw_jobs or "stellenangebote" not in raw_jobs:
-        print("⚠️ No job listings found.")
+        print("No job listings found.")
         return pd.DataFrame()
     
     for job in raw_jobs["stellenangebote"]:
@@ -60,7 +60,7 @@ def get_latest_jobs(job_title, location="", limit=50):
     jobs_df = extract_job_details(raw_data)
 
     if jobs_df.empty:
-        print("❌ No matching jobs found.")
+        print("No matching jobs found.")
     else:
         # Convert to datetime and sort by latest
         jobs_df['Modification Timestamp'] = pd.to_datetime(
@@ -73,7 +73,7 @@ def get_latest_jobs(job_title, location="", limit=50):
 
 def display_jobs_table(jobs_df, num_rows=10):
     if jobs_df.empty:
-        print("❌ No job listings available to display.")
+        print("No job listings available to display.")
         return
     
     display_columns = [
@@ -93,7 +93,7 @@ def display_jobs_table(jobs_df, num_rows=10):
     pd.set_option('display.max_colwidth', None)
     pd.set_option('display.width', None)
 
-    print("\n📌 Latest Job Listings:")
+    print("\n Latest Job Listings:")
     print(display_df.to_string(index=False))
 
 if __name__ == "__main__":
@@ -103,5 +103,5 @@ if __name__ == "__main__":
 
     if not job_data.empty:
         job_data.to_csv("latest_job_listings.csv", index=False)
-        print("✅ Latest job listings saved to latest_job_listings.csv")
+        print(" Latest job listings saved to latest_job_listings.csv")
         display_jobs_table(job_data) 
